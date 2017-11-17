@@ -1,0 +1,8 @@
+controller_list:
+  - name: fake_m_controller
+    joints:
+      - q0
+      - q1
+  - name: fake_e_controller
+    joints:
+      - q2

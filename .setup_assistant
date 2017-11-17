@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ""
+    relative_path: /home/bas/Documents/Projects/AGatA/ros/catkin_ws/src/moveit_test_git/robot.urdf
+  SRDF:
+    relative_path: config/robot.srdf
+  CONFIG:
+    author_name: a b
+    author_email: a.b@c.de
+    generated_timestamp: 1510907580

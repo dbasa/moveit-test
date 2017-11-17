@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+<robot name="robot">
+
+  <link name="footprint"/>
+
+  <joint name="p_joint" type="fixed">
+    <parent link="footprint"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <child link="base"/>
+  </joint>
+
+  <link name="base">
+    <visual name="visual">
+      <origin rpy="0 1.57079632679  0" xyz="0.035 0 0"/>
+      <geometry>
+        <cylinder length="0.07" radius="0.065"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.035 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.000732291666667" ixy="0" ixz="0" iyy="0.000732291666667" iyz="0" izz="0.00105625"/>
+    </inertial>
+  </link>
+
+  <joint name="q0" type="revolute">
+    <parent link="base"/>
+    <child link="rotatory"/>
+    <origin rpy="1.57079632679 0 1.57079632679" xyz="0.07 0 0"/>
+    <axis xyz="0 0 1"/>
+    <!-- joint range >= 2*PI leads to problems at least in simulation -->
+    <limit effort="30" lower="-3.11017672705" upper="3.11017672705" velocity="0.314159265359"/>
+  </joint>
+
+  <transmission name="manipulator_swivel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="q0">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="manipulator_swivel_motor">
+      <mechanicalReduction>100</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="rotatory">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.05535"/>
+      <geometry>
+        <cylinder length="0.117" radius="0.055"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.05"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.00155516666667" ixy="0" ixz="0" iyy="0.00155516666667" iyz="0" izz="0.00105625"/>
+    </inertial>
+  </link>
+
+  <joint name="q1" type="revolute">
+    <parent link="rotatory"/>
+    <child link="lever_arm"/>
+    <origin rpy="1.57079632679 0 -1.57079632679" xyz="0 0 0.117"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30" lower="-0.5934" upper="0.8203" velocity="0.314159265359"/>
+  </joint>
+
+  <transmission name="leverarm_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="q1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="leverarm_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="lever_arm">
+    <visual>
+      <origin rpy="-1.57079632679 0 0" xyz="0 0.12625 0"/>
+      <geometry>
+        <cylinder length="0.2525" radius="0.045"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0.12625 0"/>
+      <mass value="5"/>
+      <inertia ixx="0.106260416667" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.106260416667"/>
+    </inertial>
+  </link>
+
+  <joint name="q2" type="revolute">
+    <parent link="lever_arm"/>
+    <child link="pointer"/>
+    <origin rpy="0 0 1.57079632679" xyz="0 0.2525 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="30" lower="-1.57079632679" upper="1.57079632679" velocity="0.314159265359"/>
+  </joint>
+
+  <transmission name="cutter_swivel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="q2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="cutter_swivel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <link name="pointer">
+    <visual>
+      <origin rpy="0 1.57079632679 0" xyz="0.04 0 0"/>
+      <geometry>
+        <cylinder length="0.08" radius="0.035"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="3.3"/>
+      <inertia ixx="0.00428615" ixy="0" ixz="0" iyy="0.005253875" iyz="0" izz="0.005931475"/>
+    </inertial>
+  </link>
+</robot>
+
